@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch",
+            "request": "launch",
+            "args": [
+                "--experimental-specifier-resolution=node",
+                "--trace-warnings",
+                "--loader",
+                "ts-node/esm",
+                "${file}"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+        },
+    ]
+}
