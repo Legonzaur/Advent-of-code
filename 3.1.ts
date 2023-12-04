@@ -1,6 +1,6 @@
 import { open } from 'node:fs/promises';
 
-const file = await open('./inputs/3');
+const file = await open('./inputs/3.example');
 let sum = 0
 let input = (await file.readFile()).toString().split('\n')
 
