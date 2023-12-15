@@ -16,3 +16,4 @@ const file = await open('./inputs/15');
 for await (const line of file.readLines()) {
     console.log(line.split(',').map(getHash).reduce((acc, cur) => acc + cur, 0))
 }
+console.log(getHash('rn'))
