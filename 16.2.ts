@@ -1,9 +1,11 @@
 import { open } from 'node:fs/promises';
 
 const path = './inputs/16'
+const file1 = (await open(path))
+const file2 = (await open(path))
 
-const input = (await (await open(path)).readFile()).toString().split('\n').map(e => e.split(""))
-const process = (await (await open(path)).readFile()).toString().split('\n').map(e => e.split("").map(e => [] as Coords[]))
+const input = (await file1.readFile()).toString().split('\n').map(e => e.split(""))
+const process = (await file2.readFile()).toString().split('\n').map(e => e.split("").map(e => [] as Coords[]))
 
 type Coords = { x: number, y: number }
 
@@ -66,3 +68,7 @@ function ray({ x, y }: Coords, direction: Coords) {
 ray({ x: 0, y: 0 }, { x: 1, y: 0 })
 
 console.log(process.flat(1).reduce((acc, e) => e.length > 0 ? acc + 1 : acc, 0))
+
+
+
+await Promise.all([file1.close(), file2.close()])
