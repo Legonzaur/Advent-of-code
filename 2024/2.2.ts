@@ -1,4 +1,3 @@
-// Doesn't works
 import { open } from 'node:fs/promises';
 
 
@@ -36,19 +35,23 @@ function keep_only_errors(line: number[]) {
     }, [])
 }
 
-const result = all_diffs.map((line) => {
-    return keep_only_errors(line)
-})
-
-const orig_lines_spliced = all_diffs.map((line, index) => {
-    const l = Array.from(orig_lines[index])
-    const errors_indexes = keep_only_errors(line)
-    if (errors_indexes.length > 0) {
-        l.splice(errors_indexes[0], 1)
+let correct_lines = 0
+all_diffs.forEach((line, line_index) => {
+    const errors = keep_only_errors(line)
+    if (errors.length == 0) {
+        correct_lines++
+        return
     }
-    return l
+
+    const ol = orig_lines[line_index]
+    for (const i in ol) {
+        const orig_line_spliced = Array.from(ol)
+        orig_line_spliced.splice(Number(i), 1)
+        if (keep_only_errors(compute_diff(orig_line_spliced)).length == 0) {
+            correct_lines++
+            return
+        }
+    }
+
 })
-
-
-console.log(orig_lines_spliced.map(compute_diff).map(keep_only_errors).reduce((t, c) => c.length == 0 ? t + 1 : t, 0))
-all_diffs
+console.log(correct_lines)
